@@ -1,4 +1,3 @@
-// src/pages/BookDetail.jsx
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { doc, getDoc, updateDoc, deleteField, setDoc } from 'firebase/firestore';

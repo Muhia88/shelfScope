@@ -1,93 +1,51 @@
-// src/pages/Discover.jsx
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
 import BookCard from '../components/BookCard';
 import BookCardSkeleton from '../components/BookCardSkeleton';
 
-const popularTags = [
-  { name: 'Science Fiction', emoji: '🚀' },
-  { name: 'Fantasy', emoji: '🧙' },
-  { name: 'Detective', emoji: '🕵️' },
-  { name: 'Gothic Fiction', emoji: '🏰' },
-  { name: 'Sea Stories', emoji: '⛵' },
-  { name: 'Mythology', emoji: '✨' },
-  { name: 'Poetry', emoji: '✒️' },
-  { name: 'Philosophy', emoji: '🤔' },
-  { name: 'Children\'s Literature', emoji: '🧸' },
-  { name: 'Adventure', emoji: '🗺️' },
-];
-
-const Discover = () => {
-  const { genre } = useParams();
-  const [books, setBooks] = useState([]);
+//serves as the main landing page for the "Read" section
+const Home = () => {
+  const [popularBooks, setPopularBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchBooks = async () => {
+    const fetchPopularBooks = async () => {
       try {
         setLoading(true);
-        const topic = genre || 'popular';
-        const url = `https://gutendex.com/books?topic=${topic.toLowerCase().replace(/\s+/g, '_')}`;
-        
-        const response = await fetch(url);
+        const response = await fetch('https://gutendex.com/books/?sort=popular');
         const data = await response.json();
-        
-        setBooks(data.results || []);
+        setPopularBooks(data.results);
       } catch (err) {
-        setError('Failed to fetch books');
+        setError('Failed to fetch popular books');
         console.error(err);
       } finally {
         setLoading(false);
       }
     };
     
-    fetchBooks();
-  }, [genre]);
-  
+    fetchPopularBooks();
+  }, []);
+
   return (
     <div>
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-800">
-          {genre ? `Discover ${genre}` : 'Discover Books'}
-        </h1>
-        <p className="text-gray-600 mt-2">
-          {genre 
-            ? `Explore popular books in the ${genre} genre` 
-            : 'Browse books by genre'}
+      <div className="text-center my-8">
+        <h1 className="text-4xl font-bold mb-4">Discover Your Next Favorite Book</h1>
+        <p className="text-lg text-gray-600">
+          Explore thousands of free books.
         </p>
       </div>
-      
-      <div className="mb-8">
-        <h2 className="text-lg font-semibold text-gray-700 mb-3">
-          Popular Tags
-        </h2>
-        <div className="flex flex-wrap gap-2">
-          {popularTags.map((tag) => (
-            <Link
-              key={tag.name}
-              to={`/discover/${tag.name}`}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition duration-200 ${
-                genre === tag.name
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-              }`}
-            >
-              {tag.name} {tag.emoji}
-            </Link>
-          ))}
-        </div>
-      </div>
+
+      <h2 className="text-2xl font-bold mb-4">Popular Books</h2>
       
       {error && <div className="text-center text-red-500">{error}</div>}
       
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
         {loading ? (
-          Array.from({ length: 8 }).map((_, index) => (
+          Array.from({ length: 10 }).map((_, index) => (
             <BookCardSkeleton key={index} />
           ))
         ) : (
-          books.map(book => (
+          popularBooks.map(book => (
             <BookCard key={book.id} book={book} />
           ))
         )}
@@ -96,4 +54,4 @@ const Discover = () => {
   );
 };
 
-export default Discover;
+export default Home;

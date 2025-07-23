@@ -1,4 +1,3 @@
-// src/pages/ReadingList.jsx
 import React, { useState, useEffect } from 'react'
 import { getDoc, doc } from 'firebase/firestore'
 import { db } from '../firebase/firebase'

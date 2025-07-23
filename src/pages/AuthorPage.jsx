@@ -1,9 +1,9 @@
-// src/pages/AuthorPage.jsx
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import BookCard from '../components/BookCard';
 import BookCardSkeleton from '../components/BookCardSkeleton';
 
+//fetches and displays a list of books by a specific author
 const AuthorPage = () => {
   const { authorName } = useParams();
   const [books, setBooks] = useState([]);

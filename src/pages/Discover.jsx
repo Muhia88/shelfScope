@@ -1,4 +1,3 @@
-// src/pages/Discover.jsx
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import BookCard from '../components/BookCard';
@@ -17,6 +16,7 @@ const popularTags = [
   { name: 'Adventure', emoji: '🗺️' },
 ];
 
+//allows users to discover books by Browse popular genres
 const Discover = () => {
   const { genre } = useParams();
   const [books, setBooks] = useState([]);

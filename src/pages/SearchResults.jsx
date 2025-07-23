@@ -1,13 +1,14 @@
-// src/pages/SearchResults.jsx
 import React, { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import BookCard from '../components/BookCard'
 
+// SearchResults component fetches and displays search results based on the query parameters
+// It supports both book author and topic searches by checking the 'type' query parameter
 const SearchResults = () => {
   const location = useLocation()
   const queryParams = new URLSearchParams(location.search)
   const searchQuery = queryParams.get('q') || ''
-  const searchType = queryParams.get('type') || 'search' // 'search' or 'topic'
+  const searchType = queryParams.get('type') || 'search' 
   
   const [books, setBooks] = useState([])
   const [loading, setLoading] = useState(true)
