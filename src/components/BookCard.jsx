@@ -10,7 +10,7 @@ const BookCard = ({ book }) => {
     <div className="bg-white rounded-lg shadow-md overflow-hidden transform hover:-translate-y-1 transition-transform duration-300">
       <Link to={`/book/${book.id}`}>
         <img 
-          src={coverUrl || '/book-placeholder.png'} 
+          src={coverUrl || '/image-placeholder.jpg'} 
           alt={book.title} 
           className="w-full h-64 object-cover"
         />

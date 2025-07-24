@@ -8,7 +8,7 @@ import AudioPlayer from '../../components/AudioPlayer';
 const AudioBookDetail = ({ user }) => {
   const { audioBookId } = useParams();
   const [audiobook, setAudiobook] = useState(null);
-  const [coverUrl, setCoverUrl] = useState('/book-placeholder.png');
+  const [coverUrl, setCoverUrl] = useState('/image-placeholder.jpg');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isInList, setIsInList] = useState(false);

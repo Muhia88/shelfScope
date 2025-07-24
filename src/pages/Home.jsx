@@ -15,6 +15,7 @@ const Home = () => {
         const response = await fetch('https://gutendex.com/books/?sort=popular');
         const data = await response.json();
         setPopularBooks(data.results);
+        
       } catch (err) {
         setError('Failed to fetch popular books');
         console.error(err);

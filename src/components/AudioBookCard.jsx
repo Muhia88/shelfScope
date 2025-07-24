@@ -22,14 +22,14 @@ const AudioBookCard = ({ audiobook }) => {
           if (data.docs && data.docs[0] && data.docs[0].cover_i) {
             setCoverUrl(`https://covers.openlibrary.org/b/id/${data.docs[0].cover_i}-M.jpg`);
           } else {
-            setCoverUrl('/book-placeholder.png');
+            setCoverUrl('/image-placeholder.jpg');
           }
         } catch (error) {
           console.error("Failed to fetch book cover", error);
-          setCoverUrl('/book-placeholder.png');
+          setCoverUrl('/image-placeholder.jpg');
         }
       } else {
-         setCoverUrl('/book-placeholder.png');
+         setCoverUrl('/image-placeholder.jpg');
       }
       setLoading(false);
     };
