@@ -5,14 +5,19 @@ import { signInWithPopup, signOut } from 'firebase/auth';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 
 // Page Imports
+import LoginPage from './pages/LoginPage';
+import ChoosePath from './pages/ChoosePath';
+import ErrorPage from './pages/ErrorPage'; 
+
+// Read Page Imports
 import Home from './pages/Home';
 import SearchResults from './pages/SearchResults';
 import AuthorPage from './pages/AuthorPage';
 import BookDetail from './pages/BookDetail';
 import ReadingList from './pages/ReadingList';
 import Discover from './pages/Discover';
-import LoginPage from './pages/LoginPage';
-import ChoosePath from './pages/ChoosePath';
+
+
 // Listen Path Imports
 import ListenHomePage from './pages/listen/ListenHomePage';
 import DiscoverAudioBooks from './pages/listen/DiscoverAudioBooks';
@@ -68,7 +73,7 @@ const App = () => {
     });
     return unsubscribe;
   }, []);
- 
+
   //Shows a loading spinner during the initial authentication check.
   if (loading) {
     return (
@@ -94,11 +99,11 @@ const MainApp = ({ user, setUser }) => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
-      
+
       //Check if the user document already exists in Firestore
       const userRef = doc(db, 'users', user.uid);
       const docSnap = await getDoc(userRef);
-      
+
       // If the user is new, create a new document for them
       if (!docSnap.exists()) {
         await setDoc(userRef, {
@@ -117,7 +122,7 @@ const MainApp = ({ user, setUser }) => {
       console.error('Google sign-in error:', error);
     }
   };
- 
+
   //Handles the sign-out
   const handleSignOut = async () => {
     try {
@@ -128,7 +133,7 @@ const MainApp = ({ user, setUser }) => {
       console.error('Sign out error:', error);
     }
   };
- 
+
   //handles routing based on authentication status
   useEffect(() => {
     const publicRoutes = ['/login'];
@@ -141,11 +146,13 @@ const MainApp = ({ user, setUser }) => {
     }
   }, [user, location.pathname, navigate]);
 
-  // If there is no user, only render the login route
+  // If there is no user, only render the login route. Also include a catch-all for unknown paths.
   if (!user) {
     return (
       <Routes>
         <Route path="/login" element={<LoginPage onSignIn={handleGoogleSignIn} />} />
+        {/* For an unauthenticated user, any other path will also lead to the login page. */}
+        <Route path="*" element={<LoginPage onSignIn={handleGoogleSignIn} />} />
       </Routes>
     )
   }
@@ -154,7 +161,7 @@ const MainApp = ({ user, setUser }) => {
   return (
       <Routes>
         <Route path="/choose-path" element={<ChoosePath onSignOut={handleSignOut} />} />
-        
+
         {/* Read Path */}
         <Route element={<ReadLayout user={user} onSignOut={handleSignOut} />}>
           <Route path="/" element={<Home />} />
@@ -175,6 +182,9 @@ const MainApp = ({ user, setUser }) => {
             <Route path="/my-listens" element={<MyListens user={user} />} />
             <Route path="/audiobook/:audioBookId" element={<AudioBookDetail user={user} />} />
         </Route>
+
+        {/* This is the catch-all route. */}
+        <Route path="*" element={<ErrorPage />} />
 
       </Routes>
   );
