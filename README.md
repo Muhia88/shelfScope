@@ -129,11 +129,14 @@ After deployment:
 
 ## 🔧 Firebase Backend
 
-1. Create a new Firebase project via Firebase Console.
-2. Register a Web App and copy the config keys into your `.env` file.
-3. Enable Google Auth in **Authentication > Sign-in Method**.
-4. Create a Firestore database.
-5. Deploy cloud functions:
+1. Create or open a Firebase project in the Firebase Console
+2. Deploy cloud functions:
+
+In your project, go to the functions directory and run:
+
+```bash
+npm install
+```
 
 ```bash
 firebase deploy --only functions
