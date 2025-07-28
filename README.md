@@ -28,7 +28,7 @@
 - **APIs:**
   - Gutendex API (public domain ebooks)
   - LibriVox API (public domain audiobooks)
-  - Open Library API
+  - Open Library API(used for book covers)
 
 ---
 
